@@ -25,7 +25,7 @@ This proxy allows you to intercept API calls, inspect headers, and debug network
 
 ## 🛠 Installation & Setup  
 
-### *NOTE* TO USE THIS SERVER YOU NEED TO REPLACE THE HOST ADDRESS IN APPLICATION WITH 'http://127.0.0.1:8080' or redirect the requests to 'http:127.0.0.1:8080' using [PROXYPIN](https://play.google.com/store/apps/details?id=com.network.proxy)
+### *NOTE* TO USE THIS SERVER YOU NEED TO REPLACE THE HOST ADDRESS IN APPLICATION WITH 'http://127.0.0.1:8080' or redirect the requests to 'http://127.0.0.1:8080' using [PROXYPIN](https://play.google.com/store/apps/details?id=com.network.proxy)
 
 Follow these steps to set up and run the proxy server in **Termux**.
 
