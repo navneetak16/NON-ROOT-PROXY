@@ -1,10 +1,13 @@
 from flask import Flask, request, jsonify
 import json
 import sys
+import base64
 
 app = Flask(__name__)
 
 def log_request():
+    raw = request.get_data()  # RAW BYTES (do not decode yet)
+
     log_data = {
         "method": request.method,
         "path": request.path,
@@ -12,12 +15,18 @@ def log_request():
         "remote_addr": request.remote_addr,
         "headers": dict(request.headers),
         "query_params": request.args.to_dict(flat=False),
-        "body_raw": request.get_data(as_text=True),
+
+        # Body representations
+        "body_len": len(raw),
+        "body_hex": raw.hex(),                      # ✅ TRUE hex stream
+        "body_base64": base64.b64encode(raw).decode(),  # ✅ reversible
+        "body_text": raw.decode("utf-8", errors="replace"),  # best-effort only
+
         "json_body": None,
-        "form_body": request.form.to_dict(flat=False)
+        "form_body": request.form.to_dict(flat=False),
     }
 
-    # Try to parse JSON body safely
+    # Try to parse JSON safely (won’t crash on binary)
     try:
         log_data["json_body"] = request.get_json(silent=True)
     except Exception:
@@ -43,7 +52,6 @@ def catch_all(path):
 
 
 if __name__ == "__main__":
-    # Render provides PORT automatically
     import os
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
